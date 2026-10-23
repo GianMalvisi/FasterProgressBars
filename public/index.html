@@ -42,6 +42,11 @@
                             <option value="Prefer not to say">Prefer not to say</option>
                         </select>
                     </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="consent-check" required>
+                        <label for="consent-check" id="consent-label">I have read the Experiment Rules & Privacy Info</label>
+                    </div>
     
                     <p id="error-msg" class="error-text" style="display: none;"></p>
     
@@ -100,6 +105,19 @@
         </section>
 
     </main>
+
+    <div id="consent-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <h2>Experiment Guidelines</h2>
+                <ul>
+                    <li><strong>What to expect:</strong> You will be shown 36 short pairs of progress bars in sequence.</li>
+                    <li><strong>Your task:</strong> Simply vote for which bar felt faster to you, you are allowed to replay each trial if needed.</li>
+                    <li><strong>Data Privacy:</strong> Your data is strictly secured. We only retain it for the duration necessary to evaluate this replication study (please refer to your signed consent form for full legal details).</li>
+                    <li><strong>Need help?</strong> A team member is right here with you. If you have any questions or feel uncomfortable, just ask!</li>
+                </ul>
+                <button type="button" id="accept-consent-btn" class="btn primary-btn">I Understand & Agree</button>
+            </div>
+    </div>
 
     <!-- JavaScript Modules -->
     <script src="js/animations.js"></script>

@@ -287,3 +287,80 @@ input[type="date"]:focus, select.form-input:focus {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     background-color: #ffffff;
 }
+
+
+
+/* CONSENT CHECKBOX & MODAL */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #3b82f6;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3b82f6;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-bottom: 0;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #1e293b;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.modal-content ul {
+    padding-left: 20px;
+    margin-bottom: 25px;
+}
+
+.modal-content li {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #4b5563;
+    margin-bottom: 12px;
+}
+
+.modal-content li strong {
+    color: #1e293b;
+}
+
+#accept-consent-btn {
+    width: 100%;
+}

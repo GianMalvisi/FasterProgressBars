@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const choiceBtns = document.querySelectorAll('.choice-btn');
     const saveBtn = document.getElementById('save-btn');
 
+    const consentCheck = document.getElementById('consent-check');
+    const consentModal = document.getElementById('consent-modal');
+    const acceptConsentBtn = document.getElementById('accept-consent-btn');
+
     let participantInfo = {};
     let trials = [];
     let currentTrialIndex = 0;
@@ -32,6 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const barTypes = ['solid', 'pulsating', 'ribbed'];
     const durations = [5000, 15000];
+
+    consentCheck.addEventListener('click', (e) => {
+        if (consentCheck.checked) {
+            e.preventDefault(); 
+            consentModal.style.display = "flex";
+        }
+    });
+
+    acceptConsentBtn.addEventListener('click', () => {
+        consentCheck.checked = true;
+        consentModal.style.display = "none";
+    });
 
     setupForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -43,6 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!firstName || !lastName || !dobValue || !gender) {
             showError("Please fill in all fields correctly.");
+            return;
+        }
+
+        if (!consentCheck.checked) {
+            showError("You must read and agree to the experiment rules.");
             return;
         }
 

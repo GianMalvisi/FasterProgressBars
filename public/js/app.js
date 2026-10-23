@@ -9,6 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const ageInput = document.getElementById('age');
     const genderInput = document.getElementById('gender');
     const errorMsg = document.getElementById('error-msg');
+
+    const dobInput = document.getElementById('dob');
+    
+    // no minors
+    const today = new Date();
+    const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    dobInput.max = maxDate.toISOString().split('T')[0];
     
     const trialCounter = document.getElementById('trial-counter');
     const durationIndicator = document.getElementById('duration-indicator');
@@ -31,12 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const firstName = firstNameInput.value.trim();
         const lastName = lastNameInput.value.trim();
-        const age = parseInt(ageInput.value, 10);
+        const dobValue = dobInput.value;
         const gender = genderInput.value;
         
-        if (!firstName || !lastName || isNaN(age) || !gender) {
+        if (!firstName || !lastName || !dobValue || !gender) {
             showError("Please fill in all fields correctly.");
             return;
+        }
+
+        // Calculate age
+        const dobDate = new Date(dobValue);
+        let age = today.getFullYear() - dobDate.getFullYear();
+        const m = today.getMonth() - dobDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) {
+            age--;
         }
 
         participantInfo = { firstName, lastName, age, gender };

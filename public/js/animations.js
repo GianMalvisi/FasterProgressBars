@@ -2,33 +2,39 @@ function renderBarFrame(element, type, progress) {
     element.style.width = `${progress * 100}%`;
 
     if (type === 'solid') {
-        element.style.background = 'linear-gradient(to bottom, #72aee6 0%, #3b82f6 50%, #1d4ed8 100%)';
-        element.style.backgroundImage = 'linear-gradient(to bottom, #72aee6 0%, #3b82f6 50%, #1d4ed8 100%)';
+        // Colore solido e piatto, nessun gradiente
+        element.style.background = '#2563eb'; 
+        element.style.backgroundImage = 'none';
     } 
     else if (type === 'pulsating') {
+        // Variazione netta tra azzurro (light blue) e blu scuro (blue) come da paper
         const freq = 1.1 + (1.25 - 1.1) * progress;
-        const alpha = 0.5 + 0.5 * Math.sin(progress * Math.PI * 2 * freq * (progress * 5));
-        element.style.background = `linear-gradient(to bottom, rgba(114, 174, 230, ${alpha}) 0%, rgba(59, 130, 246, ${alpha}) 50%, rgba(29, 78, 216, ${alpha}) 100%)`;
+        // Seno normalizzato tra 0 e 1
+        const sineValue = (Math.sin(progress * Math.PI * 2 * freq * (progress * 5)) + 1) / 2;
+        
+        // Interpolazione tra Light Blue (173, 216, 230) e Blue scuro (37, 99, 235)
+        const r = Math.round(173 + (37 - 173) * sineValue);
+        const g = Math.round(216 + (99 - 216) * sineValue);
+        const b = Math.round(230 + (235 - 230) * sineValue);
+        
+        element.style.background = `rgb(${r}, ${g}, ${b})`;
+        element.style.backgroundImage = 'none';
     } 
     else if (type === 'ribbed') {
-        // Backwards Decelerating Ribbed bar (Mac OS X Aqua Style replica)
-        const currentVelocity = 31.3 * (1 - progress) + 7.8 * progress;
-        const bgPosition = -(progress * currentVelocity * 15) % 24;
+        // Replica fedele della Figura 4: bande verticali sfumate (dark-light-dark)
+        const stripes = `repeating-linear-gradient(
+            90deg,
+            #2563eb 0px,
+            #7bb8ef 15px,
+            #2563eb 30px
+        )`;
 
-        // Using repeating linear gradient with sharp highlights and shadows to simulate 3D glossy ribs
-        element.style.background = `
-            repeating-linear-gradient(
-                90deg,
-                rgba(0, 0, 0, 0.15) 0px,
-                rgba(0, 0, 0, 0.15) 3px,
-                rgba(255, 255, 255, 0.4) 3px,
-                rgba(255, 255, 255, 0.4) 6px,
-                transparent 6px,
-                transparent 12px
-            ),
-            linear-gradient(to bottom, #72aee6 0%, #3b82f6 50%, #1d4ed8 100%)
-        `;
-        element.style.backgroundSize = '24px 100%, 100% 100%';
-        element.style.backgroundPosition = `${bgPosition}px 0, 0 0`;
+        const v0 = 31.3;
+        const v1 = 7.8;
+        const position = (v0 * progress + 0.5 * (v1 - v0) * progress * progress) * 8;
+        
+        element.style.background = stripes;
+        element.style.backgroundPosition = `${-position}px 0`;
+        element.style.backgroundSize = '60px 100%';
     }
 }

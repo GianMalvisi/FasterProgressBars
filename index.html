@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Bar Perception Study</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main class="container">
+        
+        <!--Participant Registration & Validation -->
+        <section id="setup-view" class="view">
+            <div class="card">
+                <h1>HCI Research Study</h1>
+                <p>Please enter your First and Last Name to begin the experiment.</p>
+                
+                <form id="setup-form">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" id="first-name" required autocomplete="off">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" id="last-name" required autocomplete="off">
+                    </div>
+                    
+                    <p id="error-msg" class="error-text" style="display: none;"></p>
+                    
+                    <button type="submit" class="btn primary-btn">Confirm & Start</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Sequential Pairwise Comparison -->
+        <section id="experiment-view" class="view" style="display: none;">
+            <div class="experiment-header">
+                <span id="trial-counter">Trial: 1 / 36</span>
+                <span id="duration-indicator">Duration: 5s</span>
+            </div>
+
+            <div class="instruction-box">
+                <p id="instruction-text">Please watch both progress bars run to completion.</p>
+            </div>
+
+            <!-- Progress Bars Container -->
+            <div class="bars-container">
+                <div class="bar-wrapper">
+                    <span class="bar-label">Progress Bar 1</span>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="bar-1"></div>
+                    </div>
+                </div>
+
+                <div class="bar-wrapper">
+                    <span class="bar-label">Progress Bar 2</span>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="bar-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Response Controls (Hidden until bars finish) -->
+            <div id="controls-container" class="controls-area" style="display: none;">
+                <p class="question-text">Which progress bar felt faster?</p>
+                <div class="btn-group">
+                    <button class="btn choice-btn" data-choice="first">First was faster</button>
+                    <button class="btn choice-btn" data-choice="equal">Equal / Same</button>
+                    <button class="btn choice-btn" data-choice="second">Second was faster</button>
+                </div>
+                <button id="replay-btn" class="btn secondary-btn">Replay Trial</button>
+            </div>
+        </section>
+
+        <!-- Completion & CSV Download -->
+        <section id="end-view" class="view" style="display: none;">
+            <div class="card">
+                <h1>Experiment Completed</h1>
+                <p>Thank you for your participation! All trials have been successfully recorded.</p>
+                <button id="download-btn" class="btn primary-btn">Download Results (CSV)</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript Modules -->
+    <script src="js/animations.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

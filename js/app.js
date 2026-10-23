@@ -105,15 +105,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function playSequence(bar1Type, bar2Type, duration, onComplete) {
-        const bar1Element = document.getElementById('bar-1');
-        const bar2Element = document.getElementById('bar-2');
+        const barAElement = document.getElementById('bar-a');
+        const barBElement = document.getElementById('bar-b');
         
-        resetBar(bar1Element);
-        resetBar(bar2Element);
+        if (!barAElement || !barBElement) {
+            console.error("Progress bar elements not found in DOM!");
+            return;
+        }
 
-        runBar(bar1Element, bar1Type, duration, () => {
+        resetBar(barAElement);
+        resetBar(barBElement);
+
+        runBar(barAElement, bar1Type, duration, () => {
             setTimeout(() => {
-                runBar(bar2Element, bar2Type, duration, () => {
+                runBar(barBElement, bar2Type, duration, () => {
                     onComplete();
                 });
             }, 400);

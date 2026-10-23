@@ -47,32 +47,31 @@
 
             <!-- Progress Bars Container -->
             <div class="bars-container">
-                <div class="bar-wrapper">
-                    <span class="bar-label">Progress Bar 1</span>
+               <div class="bar-wrapper">
+                    <span class="bar-label">Progress Bar A</span>
                     <div class="progress-track">
-                        <div class="progress-fill" id="bar-1"></div>
+                        <div class="progress-fill" id="bar-a"></div>
                     </div>
                 </div>
 
                 <div class="bar-wrapper">
-                    <span class="bar-label">Progress Bar 2</span>
+                    <span class="bar-label">Progress Bar B</span>
                     <div class="progress-track">
-                        <div class="progress-fill" id="bar-2"></div>
+                        <div class="progress-fill" id="bar-b"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Response Controls (Hidden until bars finish) -->
+            <!-- Response Controls -->
             <div id="controls-container" class="controls-area" style="display: none;">
+                <button id="replay-btn" class="btn secondary-btn" style="margin-bottom: 10px;">Replay Trial</button>                
                 <p class="question-text">Which progress bar felt faster?</p>
                 <div class="btn-group">
-                    <button class="btn choice-btn" data-choice="first">First was faster</button>
+                    <button class="btn choice-btn" data-choice="A">A was faster</button>
                     <button class="btn choice-btn" data-choice="equal">Equal / Same</button>
-                    <button class="btn choice-btn" data-choice="second">Second was faster</button>
+                    <button class="btn choice-btn" data-choice="B">B was faster</button>
                 </div>
-                <button id="replay-btn" class="btn secondary-btn">Replay Trial</button>
             </div>
-        </section>
 
         <!-- Completion & CSV Download -->
         <section id="end-view" class="view" style="display: none;">

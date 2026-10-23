@@ -16,21 +16,21 @@
                 <h1>HCI Research Study</h1>
                 <p>Please enter your First and Last Name to begin the experiment.</p>
                 
-                <form id="setup-form">
+                <form id="setup-form" novalidate>
                     <div class="form-group">
                         <label for="first-name">First Name</label>
-                        <input type="text" id="first-name" required autocomplete="off">
+                        <input type="text" id="first-name" autocomplete="off">
                     </div>
-                    
+    
                     <div class="form-group">
                         <label for="last-name">Last Name</label>
-                        <input type="text" id="last-name" required autocomplete="off">
+                        <input type="text" id="last-name" autocomplete="off">
                     </div>
-                    
-                    <p id="error-msg" class="error-text" style="display: none;"></p>
-                    
-                    <button type="submit" class="btn primary-btn">Confirm & Start</button>
-                </form>
+    
+                <p id="error-msg" class="error-text" style="display: none;"></p>
+    
+                <button type="submit" class="btn primary-btn">Confirm & Start</button>
+</form>
             </div>
         </section>
 

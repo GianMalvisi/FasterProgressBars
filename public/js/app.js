@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const trial = trials[currentTrialIndex];
         
         trialCounter.textContent = `Trial: ${currentTrialIndex + 1} / ${trials.length}`;
-        durationIndicator.textContent = `Duration: ${trial.duration / 1000}s`;
+        durationIndicator.textContent = `Duration: ~${trial.duration / 1000}s`;
         instructionText.textContent = "Please watch both progress bars run to completion.";
         controlsContainer.style.display = "none";
 
@@ -171,8 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let elapsed = timestamp - startTime;
             let progress = Math.min(elapsed / duration, 1.0);
 
-            renderBarFrame(element, type, progress);
-
+            renderBarFrame(element, type, progress, duration / 1000);
+            
             if (progress < 1.0) {
                 requestAnimationFrame(animationStep);
             } else {

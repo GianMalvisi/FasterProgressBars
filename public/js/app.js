@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const setupForm = document.getElementById('setup-form');
     const firstNameInput = document.getElementById('first-name');
     const lastNameInput = document.getElementById('last-name');
+    const ageInput = document.getElementById('age');
+    const genderInput = document.getElementById('gender');
     const errorMsg = document.getElementById('error-msg');
     
     const trialCounter = document.getElementById('trial-counter');
@@ -14,9 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const controlsContainer = document.getElementById('controls-container');
     const replayBtn = document.getElementById('replay-btn');
     const choiceBtns = document.querySelectorAll('.choice-btn');
-    const downloadBtn = document.getElementById('download-btn');
+    const saveBtn = document.getElementById('save-btn');
 
-    let participantId = "";
+    let participantInfo = {};
     let trials = [];
     let currentTrialIndex = 0;
     let results = [];
@@ -29,19 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const firstName = firstNameInput.value.trim();
         const lastName = lastNameInput.value.trim();
+        const age = parseInt(ageInput.value, 10);
+        const gender = genderInput.value;
         
-        if (!firstName || !lastName) {
-            showError("Please fill in both First Name and Last Name.");
+        if (!firstName || !lastName || isNaN(age) || !gender) {
+            showError("Please fill in all fields correctly.");
             return;
         }
 
-        participantId = `${firstName}_${lastName}`.toLowerCase();
+        participantInfo = { firstName, lastName, age, gender };
         
-        if (localStorage.getItem(`hci_data_${participantId}`)) {
-            showError("A session with this name has already been recorded on this device.");
-            return;
-        }
-
         errorMsg.style.display = "none";
         initTrials();
         startExperiment();
@@ -108,10 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const barAElement = document.getElementById('bar-a');
         const barBElement = document.getElementById('bar-b');
         
-        if (!barAElement || !barBElement) {
-            console.error("Progress bar elements not found in DOM!");
-            return;
-        }
+        if (!barAElement || !barBElement) return;
 
         resetBar(barAElement);
         resetBar(barBElement);
@@ -127,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resetBar(element) {
         element.style.width = "0%";
-        element.className = "progress-fill";
         element.style.backgroundColor = "#3b82f6";
         element.style.backgroundImage = "none";
     }
@@ -166,12 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const trial = trials[currentTrialIndex];
         
         results.push({
-            participantId,
             trialNumber: currentTrialIndex + 1,
             durationMs: trial.duration,
-            bar1: trial.bar1,
-            bar2: trial.bar2,
-            choice
+            barA: trial.bar1,
+            barB: trial.bar2,
+            choice: choice
         });
 
         currentTrialIndex++;
@@ -181,23 +175,35 @@ document.addEventListener('DOMContentLoaded', () => {
     function finishExperiment() {
         experimentView.style.display = "none";
         endView.style.display = "block";
-        localStorage.setItem(`hci_data_${participantId}`, JSON.stringify(results));
+        localStorage.setItem(`backup_${participantInfo.firstName}_${participantInfo.lastName}`, JSON.stringify(results));
     }
 
-    downloadBtn.addEventListener('click', () => {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "ParticipantID,TrialNumber,DurationMs,Bar1,Bar2,Choice\n";
+    saveBtn.addEventListener('click', () => {
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving to Database...";
 
-        results.forEach(row => {
-            csvContent += `${row.participantId},${row.trialNumber},${row.durationMs},${row.bar1},${row.bar2},${row.choice}\n`;
+        fetch('/api/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                participantInfo: participantInfo,
+                trialsData: results
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                saveBtn.textContent = "Results Saved Successfully!";
+                saveBtn.style.backgroundColor = "#10b981"; // Success
+            } else {
+                throw new Error(data.error || "Unknown error occurred");
+            }
+        })
+        .catch(error => {
+            console.error('Error saving data:', error);
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Error! Try Saving Again";
+            saveBtn.style.backgroundColor = "#ef4444"; // Error
         });
-
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `${participantId}_results.csv`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
     });
 });

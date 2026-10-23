@@ -10,27 +10,44 @@
 
     <main class="container">
         
-        <!--Participant Registration & Validation -->
+        <!-- Participant Registration & Validation -->
         <section id="setup-view" class="view">
             <div class="card">
-                <h1>HCI Research Study</h1>
-                <p>Please enter your First and Last Name to begin the experiment.</p>
+                <h1>Research Methods Replication Study</h1>
+                <p>Please enter your details to begin the experiment.</p>
                 
                 <form id="setup-form" novalidate>
                     <div class="form-group">
                         <label for="first-name">First Name</label>
-                        <input type="text" id="first-name" autocomplete="off">
+                        <input type="text" id="first-name" autocomplete="off" required>
                     </div>
     
                     <div class="form-group">
                         <label for="last-name">Last Name</label>
-                        <input type="text" id="last-name" autocomplete="off">
+                        <input type="text" id="last-name" autocomplete="off" required>
+                    </div>
+
+                    <!-- Nuovi campi per Età e Genere -->
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" min="16" max="99" autocomplete="off" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" required>
+                            <option value="" disabled selected>Select your gender...</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Non-binary">Non-binary</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                        </select>
                     </div>
     
-                <p id="error-msg" class="error-text" style="display: none;"></p>
+                    <p id="error-msg" class="error-text" style="display: none;"></p>
     
-                <button type="submit" class="btn primary-btn">Confirm & Start</button>
-</form>
+                    <button type="submit" class="btn primary-btn">Confirm & Start</button>
+                </form>
             </div>
         </section>
 
@@ -72,13 +89,14 @@
                     <button class="btn choice-btn" data-choice="B">B was faster</button>
                 </div>
             </div>
+        </section>
 
-        <!-- Completion & CSV Download -->
+        <!-- Completion & MariaDB Save -->
         <section id="end-view" class="view" style="display: none;">
             <div class="card">
                 <h1>Experiment Completed</h1>
                 <p>Thank you for your participation! All trials have been successfully recorded.</p>
-                <button id="download-btn" class="btn primary-btn">Download Results (CSV)</button>
+                <button id="save-btn" class="btn primary-btn">Save Results</button>
             </div>
         </section>
 

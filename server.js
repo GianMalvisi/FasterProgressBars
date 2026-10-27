@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const dbConfig = {
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: 'admin',
     database: 'hci_experiment'
 };
 

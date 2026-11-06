@@ -6,13 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const setupForm = document.getElementById('setup-form');
     const firstNameInput = document.getElementById('first-name');
     const lastNameInput = document.getElementById('last-name');
-    const ageInput = document.getElementById('age');
     const genderInput = document.getElementById('gender');
+    const genderOtherInput = document.getElementById('gender-other');
     const errorMsg = document.getElementById('error-msg');
 
     const dobInput = document.getElementById('dob');
     
-    // no minors
     const today = new Date();
     const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
     dobInput.max = maxDate.toISOString().split('T')[0];
@@ -37,6 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const barTypes = ['solid', 'pulsating', 'ribbed'];
     const durations = [5000, 15000];
 
+    genderInput.addEventListener('change', () => {
+        if (genderInput.value === 'Other') {
+            genderOtherInput.style.display = 'block';
+            genderOtherInput.required = true;
+            genderOtherInput.maxLength = 20;
+            genderOtherInput.focus();
+        } else {
+            genderOtherInput.style.display = 'none';
+            genderOtherInput.required = false;
+            genderOtherInput.value = '';
+        }
+    });
+
     consentCheck.addEventListener('click', (e) => {
         if (consentCheck.checked) {
             e.preventDefault(); 
@@ -55,8 +67,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const firstName = firstNameInput.value.trim();
         const lastName = lastNameInput.value.trim();
         const dobValue = dobInput.value;
-        const gender = genderInput.value;
+        let gender = genderInput.value;
         
+        if (gender === 'Other') {
+            const customGender = genderOtherInput.value.trim();
+            if (!customGender) {
+                showError("Please specify your gender in the text field.");
+                return;
+            }
+            if (customGender.length > 20) {
+                showError("Gender text must be 20 characters or fewer.");
+                return;
+            }
+            gender = customGender;
+        }
+
         if (!firstName || !lastName || !dobValue || !gender) {
             showError("Please fill in all fields correctly.");
             return;
@@ -67,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Calculate age
         const dobDate = new Date(dobValue);
         let age = today.getFullYear() - dobDate.getFullYear();
         const m = today.getMonth() - dobDate.getMonth();
@@ -230,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             if (data.success) {
                 saveBtn.textContent = "Results Saved Successfully!";
-                saveBtn.style.backgroundColor = "#10b981"; // Success
+                saveBtn.style.backgroundColor = "#10b981";
             } else {
                 throw new Error(data.error || "Unknown error occurred");
             }
@@ -239,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error saving data:', error);
             saveBtn.disabled = false;
             saveBtn.textContent = "Error! Try Saving Again";
-            saveBtn.style.backgroundColor = "#ef4444"; // Error
+            saveBtn.style.backgroundColor = "#ef4444";
         });
     });
 });

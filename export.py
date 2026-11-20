@@ -170,12 +170,12 @@ def main() -> None:
     df_summary = compute_study3_metrics(df_raw)
     df_participants = compute_per_participant(df_raw)
 
-    csv_path = os.path.join("exports", "hci_experiment_raw_trials.csv")
-    xlsx_path = os.path.join("exports", "hci_experiment_study3_analysis.xlsx")
+    csv_path = os.path.join("exports", "raw_trials.csv")
+    xlsx_path = os.path.join("exports", "data_analysis.xlsx")
 
     df_raw.to_csv(csv_path, index=False)
     with pd.ExcelWriter(xlsx_path, engine="openpyxl") as writer:
-        df_summary.to_excel(writer, sheet_name="Study3_Summary", index=False)
+        df_summary.to_excel(writer, sheet_name="data_summary", index=False)
         df_participants.to_excel(writer, sheet_name="Per_Participant", index=False)
         df_raw.to_excel(writer, sheet_name="Raw_Normalized", index=False)
 
